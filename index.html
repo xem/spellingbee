@@ -7,7 +7,7 @@
 <h1>Abeille épelante</h1>
 <h2 id=lettres></h2>
 <br>
-<input id=champ>
+<input id=champ> <button onclick=ok(1)>OK</button>
 <br>
 <div id=reponses></div>
 <script src=dico.js></script>
@@ -54,9 +54,12 @@ count = todayswords.length;
 
 todaysletters.splice(seed%7, 1);
 todaysletters.sort(() => .5 - Math.random());
+html = "";
+for(i = 0; i < 6; i++){
+  html += " <span onclick=champ.value+=todaysletters["+i+"]>"+todaysletters[i]+"</span>";
+}
 
-
-lettres.innerHTML = "Lettres du jour:<h1><span style=color:red>" + todaysredletter+"</span> " + todaysletters.join(" ") + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick='share()'>partager</button>";
+lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer><span style=color:red onclick=champ.value+=todaysredletter>" + todaysredletter+"</span> " + html + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick='share()'>partager</button>";
 
 
 champ.focus();
@@ -65,10 +68,10 @@ oninput = e => mot = champ.value = champ.value.toUpperCase();
 
 score = 0;
 
-onkeyup = e => {
+ok = onkeyup = e => {
 
   // Check that the key is "Enter" (13) and the word typed is in the database
-  if(e.which == 13 && todayswords.includes(champ.value)){
+  if((e.which == 13 || e===1) && todayswords.includes(champ.value)){
     reponses.innerHTML += "<br>"+champ.value;
     for (i in todayswords){
       if(todayswords[i] == champ.value){
