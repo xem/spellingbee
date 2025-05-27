@@ -89,7 +89,6 @@ ok = onkeyup = e => {
     scorespan.innerHTML = score;
     champ.value = "";
   }
-  if(e === 1) champ.focus();
 }
 
 share = () => {
@@ -98,7 +97,7 @@ share = () => {
 
 efface = () => {
   champ.value = champ.value.substring(0, champ.value.length - 1);
-  champ.focus();
+
 }
 
 melange = () => {
