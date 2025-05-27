@@ -7,7 +7,9 @@
 <h1>Abeille épelante</h1>
 <h2 id=lettres></h2>
 <br>
-<input id=champ> <button onclick=ok(1)>OK</button>
+<input id=champ> <button onclick=efface()>&larr;</button> <button onclick=ok(1)>OK</button> 
+<br>
+<br>
 <br>
 <div id=reponses></div>
 <script src=dico.js></script>
@@ -57,9 +59,12 @@ todaysletters.sort(() => .5 - Math.random());
 html = "";
 for(i = 0; i < 6; i++){
   html += " <span onclick=champ.value+=todaysletters["+i+"]>"+todaysletters[i]+"</span>";
+  if(i == 2){
+    html += " <span style=color:red onclick=champ.value+=todaysredletter>" + todaysredletter+"</span>";
+  }
 }
 
-lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer><span style=color:red onclick=champ.value+=todaysredletter>" + todaysredletter+"</span> " + html + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick='share()'>partager</button>";
+lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer>"+ html + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick=melange()>mélanger</button> <button onclick='share()'>partager</button>";
 
 
 champ.focus();
@@ -70,9 +75,11 @@ score = 0;
 
 ok = onkeyup = e => {
 
+  champ.value = champ.value.replace(/ /g, "");
+
   // Check that the key is "Enter" (13) and the word typed is in the database
   if((e.which == 13 || e===1) && todayswords.includes(champ.value)){
-    reponses.innerHTML += "<br>"+champ.value;
+    reponses.innerHTML += "  "+champ.value;
     for (i in todayswords){
       if(todayswords[i] == champ.value){
         todayswords.splice(i, 1);
@@ -82,15 +89,22 @@ ok = onkeyup = e => {
     scorespan.innerHTML = score;
     champ.value = "";
   }
+  if(e === 1) champ.focus();
 }
 
 share = () => {
   navigator.share({text:"J'ai trouvé " + score + " mot" + (score > 1 ? "s" : "") + " à Abeille épelante! Peux-tu me battre?\nhttps://xem.github.io/spellingbee"});
+}
+
+efface = () => {
+  champ.value = champ.value.substring(0, champ.value.length - 1);
+  champ.focus();
 }
 </script>
 
 <style>
 * {
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 </style>
