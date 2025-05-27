@@ -100,6 +100,21 @@ efface = () => {
   champ.value = champ.value.substring(0, champ.value.length - 1);
   champ.focus();
 }
+
+melange = () => {
+  todaysletters.sort(() => .5 - Math.random());
+  html = "";
+  for(i = 0; i < 6; i++){
+    html += " <span onclick=champ.value+=todaysletters["+i+"]>"+todaysletters[i]+"</span>";
+    if(i == 2){
+      html += " <span style=color:red onclick=champ.value+=todaysredletter>" + todaysredletter+"</span>";
+    }
+  }
+  
+  lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer>"+ html + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick=melange()>mélanger</button> <button onclick='share()'>partager</button>";
+}
+
+
 </script>
 
 <style>
