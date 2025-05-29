@@ -64,7 +64,7 @@ for(i = 0; i < 6; i++){
   }
 }
 
-lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer>"+ html + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick=melange()>mélanger</button> <button onclick='share()'>partager</button>";
+lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer>"+ html + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick=melange()>mélanger</button> <button onclick='share()'>partager</button> <button onclick=seereponses()>voir les réponses</button>";
 
 
 champ.focus();
@@ -110,9 +110,14 @@ melange = () => {
     }
   }
   
-  lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer>"+ html + "</h1>Score: <span id=scorespan>0</span> / " + count + "<br><br><button onclick=melange()>mélanger</button> <button onclick='share()'>partager</button>";
+  lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer>"+ html + "</h1>Score: <span id=scorespan>" + score + "</span> / " + count + "<br><br><button onclick=melange()>mélanger</button> <button onclick='share()'>partager</button> <button onclick=seereponses()>voir les réponses</button>";
 }
 
+seereponses = () => {
+  champ.disabled = true;
+  reponses.innerHTML += "<p style=color:red>" + todayswords.join(" ");
+  document.documentElement.scrollTop = document.body.scrollTop = 9999;
+}
 
 </script>
 
