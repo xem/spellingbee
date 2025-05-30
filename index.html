@@ -12,6 +12,9 @@
 <br>
 <br>
 <div id=reponses></div>
+<br>
+<br>
+<button onclick=trier() id=tri style="display:none">Trier les réponses</button>
 <script src=dico.js></script>
 <script>
 
@@ -69,9 +72,14 @@ lettres.innerHTML = "Lettres du jour:<h1 style=cursor:pointer>"+ html + "</h1>Sc
 
 champ.focus();
 
+reponses.innerHTML = localStorage["beeanswers"+seed] || ""; 
+scorespan.innerHTML = localStorage["beescore"+seed] || "0"; 
+score = +localStorage["beescore"+seed] || 0;
+if(score >=2) tri.style.display = "block";
+if(localStorage["beewords"+seed]) todayswords = localStorage["beewords"+seed].split(",");
+
 oninput = e => mot = champ.value = champ.value.toUpperCase();
 
-score = 0;
 
 ok = onkeyup = e => {
 
@@ -79,13 +87,17 @@ ok = onkeyup = e => {
 
   // Check that the key is "Enter" (13) and the word typed is in the database
   if((e.which == 13 || e===1) && todayswords.includes(champ.value)){
-    reponses.innerHTML += "  "+champ.value;
+    reponses.innerHTML += " "+champ.value;
     for (i in todayswords){
       if(todayswords[i] == champ.value){
         todayswords.splice(i, 1);
       }
     }
     score++;
+    localStorage["beewords"+seed] = todayswords.join(","); 
+    localStorage["beescore"+seed] = score; 
+    if(score >=2) tri.style.display = "block";
+    localStorage["beeanswers"+seed] = reponses.innerHTML;
     scorespan.innerHTML = score;
     champ.value = "";
   }
@@ -97,7 +109,6 @@ share = () => {
 
 efface = () => {
   champ.value = champ.value.substring(0, champ.value.length - 1);
-
 }
 
 melange = () => {
@@ -117,6 +128,11 @@ seereponses = () => {
   champ.disabled = true;
   reponses.innerHTML += "<p style=color:red>" + todayswords.join(" ");
   document.documentElement.scrollTop = document.body.scrollTop = 9999;
+}
+
+trier = () => {
+  reponses.innerHTML = reponses.innerHTML.split(" ").sort().join(" ");
+  localStorage["beeanswers"+seed] = reponses.innerHTML;
 }
 
 </script>
