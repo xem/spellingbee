@@ -7,11 +7,12 @@
 <h1>Abeille épelante</h1>
 <h2 id=lettres></h2>
 <br>
-<input id=champ> <button onclick=efface()>&larr;</button> <button onclick=ok(1)>OK</button> 
+<input id=champ> <button onclick=efface()>&larr;</button> <button onclick=ok(1)>OK</button> <input type=checkbox id=conjug checked>suffixes</button>
 <br>
 <br>
 <br>
 <div id=reponses></div>
+<div id=finreponses></div>
 <br>
 <br>
 <button onclick=trier() id=tri style="display:none">Trier les réponses</button>
@@ -83,24 +84,89 @@ oninput = e => mot = champ.value = champ.value.toUpperCase();
 
 ok = onkeyup = e => {
 
-  champ.value = champ.value.replace(/ /g, "");
+  var mot = champ.value = champ.value.replace(/ /g, "");
+  var mot2 = mot.replace(/.$/,"");
+  var mot3 = mot + "E";
 
   // Check that the key is "Enter" (13) and the word typed is in the database
-  if((e.which == 13 || e===1) && todayswords.includes(champ.value)){
-    reponses.innerHTML += " "+champ.value;
-    for (i in todayswords){
-      if(todayswords[i] == champ.value){
-        todayswords.splice(i, 1);
+  if((e.which == 13 || e===1)){
+    
+    if(todayswords.includes(mot)){
+    
+      reponses.innerHTML += " "+mot;
+      for (i in todayswords){
+        if(todayswords[i] == mot){
+          todayswords.splice(i, 1);
+        }
+      }
+      score++;
+      localStorage["beewords"+seed] = todayswords.join(","); 
+      localStorage["beescore"+seed] = score; 
+      if(score >=2) tri.style.display = "block";
+      localStorage["beeanswers"+seed] = reponses.innerHTML;
+      scorespan.innerHTML = score;
+      champ.value = "";
+    }
+  
+    if(conjug.checked){
+    
+      
+      for(suffix of ["", "A", "E", "S", "T", "EE", "EES", "ES", "ONS", "EZ", "ENT", "ONT", "AI", "AS", "AT", "AIS", "AIT", "AMES", "ATES", "IEZ", "ERENT", "ERONT", "RA", "RAI", "RAS", "RONS", "REZ", "RENT", "RONT", "RIEZ", "ASSE", "ASSES", "ISSE", "ISSES", "ASSIONS", "ISSIONS"]){
+      
+      
+        if(todayswords.includes(mot + suffix)){
+          reponses.innerHTML += " "+mot + suffix;
+          for (i in todayswords){
+            if(todayswords[i] == mot + suffix){
+              todayswords.splice(i, 1);
+            }
+          }
+          score++;
+          localStorage["beewords"+seed] = todayswords.join(","); 
+          localStorage["beescore"+seed] = score; 
+          if(score >=2) tri.style.display = "block";
+          localStorage["beeanswers"+seed] = reponses.innerHTML;
+          scorespan.innerHTML = score;
+          champ.value = "";
+        }
+        
+        if(todayswords.includes(mot2 + suffix)){
+          reponses.innerHTML += " "+ mot2 + suffix;
+          for (i in todayswords){
+            if(todayswords[i] == mot2 + suffix){
+              todayswords.splice(i, 1);
+            }
+          }
+          score++;
+          localStorage["beewords"+seed] = todayswords.join(","); 
+          localStorage["beescore"+seed] = score; 
+          if(score >=2) tri.style.display = "block";
+          localStorage["beeanswers"+seed] = reponses.innerHTML;
+          scorespan.innerHTML = score;
+          champ.value = "";
+        }
+        
+        if(todayswords.includes(mot3 + suffix)){
+          reponses.innerHTML += " "+ mot3 + suffix;
+          for (i in todayswords){
+            if(todayswords[i] == mot3 + suffix){
+              todayswords.splice(i, 1);
+            }
+          }
+          score++;
+          localStorage["beewords"+seed] = todayswords.join(","); 
+          localStorage["beescore"+seed] = score; 
+          if(score >=2) tri.style.display = "block";
+          localStorage["beeanswers"+seed] = reponses.innerHTML;
+          scorespan.innerHTML = score;
+          champ.value = "";
+        }
+        
       }
     }
-    score++;
-    localStorage["beewords"+seed] = todayswords.join(","); 
-    localStorage["beescore"+seed] = score; 
-    if(score >=2) tri.style.display = "block";
-    localStorage["beeanswers"+seed] = reponses.innerHTML;
-    scorespan.innerHTML = score;
-    champ.value = "";
+    
   }
+  
 }
 
 share = () => {
@@ -126,7 +192,7 @@ melange = () => {
 
 seereponses = () => {
   champ.disabled = true;
-  reponses.innerHTML += "<p style=color:red>" + todayswords.join(" ");
+  finreponses.innerHTML = "<p style=color:red>" + todayswords.join(" ");
   document.documentElement.scrollTop = document.body.scrollTop = 9999;
 }
 
