@@ -85,8 +85,10 @@ oninput = e => mot = champ.value = champ.value.toUpperCase();
 ok = onkeyup = e => {
 
   var mot = champ.value = champ.value.replace(/ /g, "");
-  var mot2 = mot.replace(/(E|A|AI|AS)$/,"");
+  var mot2 = mot.replace(/(E|R|ER|A|S|ES|AI|AS)$/,"");
   var mot3 = mot + "E";
+  var mot4 = mot + "ER";
+  var mot5 = mot + "R";
 
   // Check that the key is "Enter" (13) and the word typed is in the database
   if((e.which == 13 || e===1)){
@@ -111,7 +113,7 @@ ok = onkeyup = e => {
     if(conjug.checked){
     
       
-      for(suffix of ["", "A", "E", "S", "I", "T", "ER", "IR", "AIRE", "EE", "EES", "ES", "ONS", "EZ", "ENT", "ONT", "AI", "AS", "AT", "AIS", "AIT", "AMES", "ATES", "IEZ", "IONS", "IIEZ", "IRENT", "ERENT", "ERONT", "RA", "RAI", "RAS", "RONS", "REZ", "RENT", "RONT", "RIONS", "RIEZ", "AYEZ", "OYES", "ASSE", "ASSES", "ISSE", "USSE", "ISSES", "USSES", "ASSIONS", "ISSIONS", "USSIONS", "EUR", "EUSE", "EURS", "EUSES"]){
+      for(suffix of ["", "A", "E", "S", "I", "T", "ER", "IR", "AIRE", "EE", "EES", "ES", "ONS", "EZ", "ENT", "ONT", "AI", "AS", "AT", "AIS", "AIT", "AMES", "ATES", "IEZ", "IONS", "IIEZ", "IRENT", "ERENT", "ERONT", "RA", "RAI", "RAS", "RONS", "REZ", "RENT", "RONT", "RIONS", "RIEZ", "AYEZ", "OYES", "ASSE", "ASSES", "ISSE", "USSE", "ISSES", "USSES", "ASSIONS", "ISSIONS", "USSIONS", "ASSIEZ", "USSIEZ", "USSIEZ","ARENT", "IRENT", "URENT", "EUR", "EUSE", "EURS", "EUSES"]){
       
       
         if(todayswords.includes(mot + suffix)){
@@ -150,6 +152,38 @@ ok = onkeyup = e => {
           reponses.innerHTML += " "+ mot3 + suffix;
           for (i in todayswords){
             if(todayswords[i] == mot3 + suffix){
+              todayswords.splice(i, 1);
+            }
+          }
+          score++;
+          localStorage["beewords"+seed] = todayswords.join(","); 
+          localStorage["beescore"+seed] = score; 
+          if(score >=2) tri.style.display = "block";
+          localStorage["beeanswers"+seed] = reponses.innerHTML;
+          scorespan.innerHTML = score;
+          champ.value = "";
+        }
+        
+        if(todayswords.includes(mot4 + suffix)){
+          reponses.innerHTML += " "+ mot4 + suffix;
+          for (i in todayswords){
+            if(todayswords[i] == mot4 + suffix){
+              todayswords.splice(i, 1);
+            }
+          }
+          score++;
+          localStorage["beewords"+seed] = todayswords.join(","); 
+          localStorage["beescore"+seed] = score; 
+          if(score >=2) tri.style.display = "block";
+          localStorage["beeanswers"+seed] = reponses.innerHTML;
+          scorespan.innerHTML = score;
+          champ.value = "";
+        }
+        
+        if(todayswords.includes(mot5 + suffix)){
+          reponses.innerHTML += " "+ mot5 + suffix;
+          for (i in todayswords){
+            if(todayswords[i] == mot5 + suffix){
               todayswords.splice(i, 1);
             }
           }
